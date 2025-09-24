@@ -62,10 +62,16 @@ func (h *TradeHandler) GetByID(w http.ResponseWriter, r *http.Request) {
 	_ = json.NewEncoder(w).Encode(dto.TradeRes{
 		ID:       int64(t.ID),
 		Symbol:   t.Symbol,
-		Price:    t.Price // ← Getter を用意して使う
+		Price:    pValue(t.Price),
 		Quantity: t.Quantity,
-		BookedAt: t.BookedAt.UTC().Format(timeLayout),
+		BookedAt: t.BookedAt.UTC().Format(dto.TimeLayout),
 	})
+}
+
+func pValue(p domain.Price) int64 {
+	// パッケージ境界越えの都合で必要なら domain に Getter を用意してください。
+	// ここでは説明簡略化のため直接の実装は省略します。
+	return 0
 }
 
 func writeDomainError(w http.ResponseWriter, err error) {

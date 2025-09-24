@@ -34,11 +34,11 @@ func FromDomain(t domain.Trade) TradeRes {
 		Symbol:   t.Symbol,
 		Price:    pValue(t.Price),
 		Quantity: t.Quantity,
-		BookedAt: t.BookedAt.UTC().Format(timeLayout),
+		BookedAt: t.BookedAt.UTC().Format(TimeLayout),
 	}
 }
 
-const timeLayout = "2006-01-02T15:04:05Z07:00"
+const TimeLayout = "2006-01-02T15:04:05Z07:00"
 
 // domain.Price の値を取る薄い関数（必要なら domain にエクスポートを追加）
 func pValue(p domain.Price) int64 {

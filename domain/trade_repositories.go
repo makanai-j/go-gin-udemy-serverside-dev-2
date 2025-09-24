@@ -2,7 +2,6 @@ package domain
 
 import (
 	"context"
-	"go-gin-udemy-serverside-dev-2/domain"
 	"sync"
 )
 
@@ -14,13 +13,13 @@ type ITradeRepository interface {
 type TradeRepoInMem struct {
 	mu    sync.RWMutex
 	seq   int64
-	store map[domain.TradeID]domain.Trade
+	store map[TradeID]Trade
 }
 
 
 
 func NewTradeRepoInMem() ITradeRepository {
-	return &TradeRepoInMem{store: make(map[domain.TradeID]domain.Trade)}
+	return &TradeRepoInMem{store: make(map[TradeID]Trade)}
 }
 
 func (r *TradeRepoInMem) FindByID(ctx context.Context, id TradeID) (*Trade, error) {
@@ -30,7 +29,7 @@ func (r *TradeRepoInMem) FindByID(ctx context.Context, id TradeID) (*Trade, erro
 		c := v // コピー
 		return &c, nil
 	}
-	return nil, domain.ErrNotFound
+	return nil, ErrNotFound
 }
 
 func (r *TradeRepoInMem) Save(ctx context.Context, t Trade) (TradeID, error) {
@@ -38,7 +37,7 @@ func (r *TradeRepoInMem) Save(ctx context.Context, t Trade) (TradeID, error) {
 	defer r.mu.Unlock()
 	if t.ID == 0 {
 		r.seq++
-		t.ID = domain.TradeID(r.seq)
+		t.ID = TradeID(r.seq)
 	}
 	r.store[t.ID] = t
 	return t.ID, nil

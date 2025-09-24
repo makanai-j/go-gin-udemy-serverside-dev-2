@@ -20,11 +20,11 @@ type ITradeService interface {
 }
 
 type TradeSevice struct {
-	repo  domain.TradeRepository
+	repo  domain.ITradeRepository
 	clock Clock
 }
 
-func NewTradeService(r domain.TradeRepository, c Clock) ITradeService {
+func NewTradeService(r domain.ITradeRepository, c Clock) ITradeService {
 	if c == nil {
 		c = systemClock{}
 	}
